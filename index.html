@@ -419,6 +419,27 @@
         }
 
         @media (max-width: 768px) {
+            .pricing-card {
+                padding: 2rem 1rem;
+                margin: 0 1rem;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1.02);
+            }
+
+            .pricing-card img {
+                max-width: 150px;
+                height: auto;
+                margin: 1rem auto;
+            }
+
+            .experience-item img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                margin-bottom: 1rem;
+            }
             .social-sidebar {
                 flex-direction: row;
                 top: auto;
@@ -486,17 +507,33 @@
             }
 
             .hero-image {
-                max-width: 400px;
-                margin: 2rem auto;
+                max-width: 300px;
+                margin: 1.5rem auto;
+                padding: 0 1rem;
             }
 
             .hero-image img {
                 width: 100%;
-                height: 100%;
+                height: auto;
+                max-height: 300px;
+                object-fit: contain;
+                border-radius: 15px;
             }
 
             .grid {
                 grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+
+            .portfolio-item img {
+                max-height: 250px;
+                object-fit: cover;
+            }
+
+            .card img {
+                max-height: 200px;
+                object-fit: cover;
+                border-radius: 10px;
             }
 
             .section-title h2 {
@@ -770,10 +807,10 @@
         <a href="https://facebook.com" target="_blank" class="social-link">
             <i class="fab fa-facebook-f"></i>
         </a>
-        <a href="https://twitter.com" target="_blank" class="social-link">
+        <a href="https://github.com/vignesh220402" target="_blank" class="social-link">
             <i class="fab fa-github"></i>
         </a>
-        <a href="https://instagram.com" target="_blank" class="social-link">
+        <a href="https://www.linkedin.com/in/vignesh-s-25688525a/" target="_blank" class="social-link">
             <i class="fab fa-linkedin"></i>
         </a>
     </div>
@@ -782,7 +819,7 @@
         <button class="menu-btn">☰</button>
         <div class="nav-links">
             <a href="#home" class="active">Home</a>
-            <a href="#about" style="scroll-behavior: smooth;">About</a>
+            <a href="/about.html" style="scroll-behavior: smooth;">About</a>
             <a href="#services">Services</a>
             <a href="#portfolio">Portfolio</a>
             <a href="#pricing">Pricing</a>
@@ -803,7 +840,7 @@
             <a href="#contact" class="hire-btn">Hire Me</a>
         </div>
         <div class="hero-image">
-            <img src="photo/PSX_20250621_220706.png" alt="Vignesh S - Fullstack Developer & Mechatronics Engineer">
+            <img src="photo/1750847377492.png" alt="Vignesh S - Fullstack Developer & Mechatronics Engineer">
         </div>
     </main>
 
@@ -835,7 +872,7 @@
                         </div>
                     </div>
                     <div class="about-image">
-                        <img src="photo/PSX_20250621_144108.png" alt="About Vignesh S"
+                        <img src="photo/ProjectManagement.jpg" alt="About Vignesh S"
                             style="width: 100%; border-radius: 15px; box-shadow: var(--card-shadow);">
                     </div>
                 </div>
