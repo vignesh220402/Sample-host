@@ -760,9 +760,215 @@
             color: var(--text-color);
             text-decoration: none;
         }
+        .contact-section {
+            background: var(--bg-light);
+            padding: 5rem 0;
+            scroll-margin-top: 80px;
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-form:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #adb5bd;
+        }
+
+        .submit-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .submit-btn.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid white;
+            border-radius: 50%;
+            border-right-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .form-input.error {
+            border-color: #ff6b6b;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .error-message.visible {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .contact-form {
+                padding: 2rem;
+            }
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Contact form validation and submission
+            const contactForm = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const inputs = {
+                name: document.getElementById('name'),
+                email: document.getElementById('email'),
+                message: document.getElementById('message')
+            };
+            const errors = {
+                name: document.getElementById('nameError'),
+                email: document.getElementById('emailError'),
+                message: document.getElementById('messageError')
+            };
+
+            function showError(input, error) {
+                input.classList.add('error');
+                error.classList.add('visible');
+            }
+
+            function hideError(input, error) {
+                input.classList.remove('error');
+                error.classList.remove('visible');
+            }
+
+            function validateInput(input, error, validationFn) {
+                const value = input.value.trim();
+                if (!validationFn(value)) {
+                    showError(input, error);
+                    return false;
+                }
+                hideError(input, error);
+                return true;
+            }
+
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            if (contactForm) {
+                // Real-time validation
+                Object.keys(inputs).forEach(key => {
+                    inputs[key].addEventListener('input', function() {
+                        switch(key) {
+                            case 'name':
+                                validateInput(inputs[key], errors[key], value => value.length >= 2);
+                                break;
+                            case 'email':
+                                validateInput(inputs[key], errors[key], isValidEmail);
+                                break;
+                            case 'message':
+                                validateInput(inputs[key], errors[key], value => value.length >= 10);
+                                break;
+                        }
+                    });
+                });
+
+                contactForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const isNameValid = validateInput(inputs.name, errors.name, value => value.length >= 2);
+                    const isEmailValid = validateInput(inputs.email, errors.email, isValidEmail);
+                    const isMessageValid = validateInput(inputs.message, errors.message, value => value.length >= 10);
+                    
+                    if (!isNameValid || !isEmailValid || !isMessageValid) {
+                        return;
+                    }
+                    
+                    submitBtn.classList.add('loading');
+                    
+                    try {
+                        // Simulate API call
+                        await new Promise(resolve => setTimeout(resolve, 1500));
+                        
+                        // Success
+                        contactForm.reset();
+                        Object.keys(inputs).forEach(key => {
+                            hideError(inputs[key], errors[key]);
+                        });
+                        alert('Thank you for your message! I will get back to you soon.');
+                    } catch (error) {
+                        alert('An error occurred. Please try again later.');
+                    } finally {
+                        submitBtn.classList.remove('loading');
+                    }
+                });
+            }
+
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -1008,6 +1214,29 @@
                 maintainable solutions.</p>
         </div>
     </div>
+     <section id="contact" class="contact-section">
+        <div class="contact-container">
+            <h2 class="section-title">Get In Touch</h2>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name" class="form-label">Name *</label>
+                    <input type="text" id="name" name="name" class="form-input" placeholder="Enter your name" required minlength="2">
+                    <div class="error-message" id="nameError">Please enter a valid name (minimum 2 characters)</div>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email *</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
+                    <div class="error-message" id="emailError">Please enter a valid email address</div>
+                </div>
+                <div class="form-group">
+                    <label for="message" class="form-label">Message *</label>
+                    <textarea id="message" name="message" class="form-input" rows="5" placeholder="Your message" required minlength="10"></textarea>
+                    <div class="error-message" id="messageError">Please enter a message (minimum 10 characters)</div>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
+            </form>
+        </div>
+    </section>
 </section>
 </body>
 
